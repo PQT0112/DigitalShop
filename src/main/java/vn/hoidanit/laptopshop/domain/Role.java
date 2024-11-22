@@ -1,12 +1,13 @@
 package vn.hoidanit.laptopshop.domain;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -19,7 +20,7 @@ public class Role {
 
     private String description;
 
-    // ROLE - one => many- users
+    // role - one => many - users . ctrl + k . press 's'
     @OneToMany(mappedBy = "role")
     private List<User> users;
 
