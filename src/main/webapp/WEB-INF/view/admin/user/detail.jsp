@@ -23,11 +23,38 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manage Product</h1>
+                                <h1 class="mt-4">View Detail</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item active"><a href="/admin">Dashboard</a></li>
                                 </ol>
-                                <div>product</div>
+                                <div class="container mt-5">
+                                    <div class="row">
+                                        <div class="col-12 mx-auto">
+                                            <div class="d-flex justify-content-between">
+                                                <h3>User detail: ${id}</h3>
+
+                                            </div>
+
+                                            <hr />
+
+                                            <div class="card" style="width: 60%">
+                                                <div class="card-header">
+                                                    User Information
+                                                </div>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">ID: ${id}</li>
+                                                    <li class="list-group-item">Email: ${user.email}</li>
+                                                    <li class="list-group-item">FullName: ${user.fullName}</li>
+                                                    <li class="list-group-item">Address: ${user.address}</li>
+                                                    <li class="list-group-item">Phone Number: ${user.phone}</li>
+                                                </ul>
+                                            </div>
+                                            <a href="/admin/user" class="btn btn-success mt-3">Back</a>
+                                        </div>
+
+                                    </div>
+
+                                </div>
                             </div>
                         </main>
                         <jsp:include page="../layout/footer.jsp" />
