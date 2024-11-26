@@ -36,14 +36,7 @@ public class UserController {
 
     }
 
-    @RequestMapping("/")
-    public String getHomePage(Model model) {
-        List<User> arrUser = this.userService.getAllUserByEmail("truo@gmail.com");
-        System.out.println(arrUser);
-        model.addAttribute("pqt", "test");
-        model.addAttribute("qt0112", "spring");
-        return "hello1";
-    }
+   
 
     @RequestMapping("/admin/user")
     public String getUserPage(Model model) {
