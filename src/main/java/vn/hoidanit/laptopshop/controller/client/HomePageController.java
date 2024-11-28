@@ -34,10 +34,10 @@ public class HomePageController {
 
     @GetMapping("/")
     public String getHomePage(Model model, HttpServletRequest request) {
-        List<Product> products = this.productService.getAllProduct();
+        List<Product> products = this.productService.fetchProducts();
         model.addAttribute("products", products);
         HttpSession session = request.getSession(false);
-        
+
         return "client/homepage/show";
     }
 

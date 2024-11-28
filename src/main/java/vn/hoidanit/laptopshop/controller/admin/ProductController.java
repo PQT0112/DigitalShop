@@ -22,64 +22,55 @@ import vn.hoidanit.laptopshop.service.UploadService;
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.service.ProductService;
 
-
-
 @Controller
 public class ProductController {
 
     private final UploadService uploadService;
     private final ProductService productService;
 
-    public ProductController(UploadService uploadService, ProductService productService){
+    public ProductController(UploadService uploadService, ProductService productService) {
         this.uploadService = uploadService;
         this.productService = productService;
     }
 
-
-
-
-
     @GetMapping("/admin/product")
-    public String getProductPage(Model model){
-        List<Product> prs = this.productService.getAllProduct();
+    public String getProductPage(Model model) {
+        List<Product> prs = this.productService.fetchProducts();
         model.addAttribute("prs", prs);
         return "admin/product/show";
     }
 
     @GetMapping("/admin/product/create")
-    public String getCreateProduct(Model model){
+    public String getCreateProduct(Model model) {
         model.addAttribute("newProduct", new Product());
         return "admin/product/create";
     }
 
-
     @PostMapping(value = "/admin/product/create")
     public String createProduct(@ModelAttribute("newProduct") @Valid Product addProduct,
-    BindingResult newProductBindingResult, 
-    @RequestParam("productFile") MultipartFile file) {
+            BindingResult newProductBindingResult,
+            @RequestParam("productFile") MultipartFile file) {
 
         // validate
         if (newProductBindingResult.hasErrors()) {
             return "admin/product/create";
         }
-        
+
         String image = this.uploadService.handleSaveUploadFile(file, "product");
         addProduct.setImage(image);
-        
+
         this.productService.createProduct(addProduct);
 
         return "redirect:/admin/product";
     }
-    
 
     @RequestMapping("/admin/product/{id}")
     public String getProductDetailPage(Model model, @PathVariable long id) {
-        Product product = this.productService.getProductById(id);
+        Optional<Product> product = this.productService.fetchProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("id", id);
         return "admin/product/detail";
     }
-
 
     @GetMapping("/admin/product/delete/{id}")
     public String getDeleteProductPage(Model model, @PathVariable long id) {
@@ -87,7 +78,6 @@ public class ProductController {
         model.addAttribute("newProduct", new Product());
         return "admin/product/delete";
     }
-    
 
     @PostMapping("/admin/product/delete")
     public String DeleteUser(Model model, @ModelAttribute("newProduct") Product pr) {
@@ -95,26 +85,24 @@ public class ProductController {
         return "redirect:/admin/product";
     }
 
-
     @GetMapping("/admin/product/update/{id}")
     public String getUpdateProductPage(Model model, @PathVariable long id) {
-        Product currentProduct = this.productService.getProductById(id);
-        model.addAttribute("newProduct", currentProduct);
+        Optional<Product> currentProduct = this.productService.fetchProductById(id);
+        model.addAttribute("newProduct", currentProduct.get());
         return "admin/product/update";
     }
-
 
     @PostMapping("/admin/product/update")
     public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product pr,
             BindingResult newProductBindingResult,
-            @RequestParam("productFile") MultipartFile file) {
+            @RequestParam("hoidanitFile") MultipartFile file) {
 
         // validate
         if (newProductBindingResult.hasErrors()) {
             return "admin/product/update";
         }
 
-        Product currentProduct = this.productService.fetchProductById(pr.getId());
+        Product currentProduct = this.productService.fetchProductById(pr.getId()).get();
         if (currentProduct != null) {
             // update new image
             if (!file.isEmpty()) {
@@ -135,6 +123,4 @@ public class ProductController {
 
         return "redirect:/admin/product";
     }
-    }
-
-
+}
