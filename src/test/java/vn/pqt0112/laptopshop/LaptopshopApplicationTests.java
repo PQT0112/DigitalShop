@@ -1,4 +1,4 @@
-package vn.hoidanit.laptopshop;
+package vn.pqt0112.laptopshop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,3 +11,4 @@ class LaptopshopApplicationTests {
     }
 
 }
+

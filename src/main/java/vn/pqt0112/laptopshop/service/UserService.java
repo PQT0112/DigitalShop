@@ -2,8 +2,11 @@ package vn.pqt0112.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import vn.pqt0112.laptopshop.domain.Product;
 import vn.pqt0112.laptopshop.domain.Role;
 import vn.pqt0112.laptopshop.domain.User;
 import vn.pqt0112.laptopshop.domain.dto.RegisterDTO;
@@ -28,6 +31,10 @@ public class UserService {
         this.roleRepository = roleRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
+    }
+
+    public Page<User> fetchUsers(Pageable page) {
+        return this.userRepository.findAll(page);
     }
 
     public List<User> getAllUser() {

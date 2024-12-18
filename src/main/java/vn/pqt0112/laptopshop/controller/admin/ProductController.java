@@ -3,6 +3,9 @@ package vn.pqt0112.laptopshop.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import vn.pqt0112.laptopshop.domain.Product;
-import vn.pqt0112.laptopshop.domain.User;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +36,26 @@ public class ProductController {
     }
 
     @GetMapping("/admin/product")
-    public String getProductPage(Model model) {
-        List<Product> prs = this.productService.fetchProducts();
-        model.addAttribute("prs", prs);
+    public String getProduct(Model model,
+            @RequestParam("page") Optional<String> pageOptional) {
+        int page = 1;
+        try {
+            if (pageOptional.isPresent()) {
+                page = Integer.parseInt(pageOptional.get());
+            } else {
+
+            }
+        } catch (Exception e) {
+
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, 5);
+        Page<Product> prs = this.productService.fetchProducts(pageable);
+        List<Product> listProducts = prs.getContent();
+        model.addAttribute("products", listProducts);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
         return "admin/product/show";
     }
 
